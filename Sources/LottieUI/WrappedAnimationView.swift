@@ -53,6 +53,11 @@ extension WrappedAnimationView {
         get { animationView.loopMode }
         set { animationView.loopMode = newValue }
     }
+    
+    var speed: CGFloat {
+        get { animationView.animationSpeed }
+        set { animationView.animationSpeed = newValue }
+    }
 
     func play(completion: LottieCompletionBlock?) {
         animationView.play(completion: completion)

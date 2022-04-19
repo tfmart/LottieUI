@@ -41,21 +41,28 @@ public struct LottieView: UIViewRepresentable {
     }
 
     public func makeUIView(context: Context) -> WrappedAnimationView {
-        let animation = Animation.named(name, bundle: bundle, subdirectory: nil, animationCache: animationCache)
+        let animation = Animation.named(name, bundle: bundle,
+                                        subdirectory: nil, animationCache: animationCache)
         let provider = imageProvider ?? BundleImageProvider(bundle: bundle, searchPath: nil)
-        let animationView = WrappedAnimationView(animation: animation, provider: provider, configuration: configuration)
+        let animationView = WrappedAnimationView(animation: animation, provider: provider,
+                                                 configuration: configuration)
         return animationView
     }
 
     public func updateUIView(_ uiView: WrappedAnimationView, context: Context) {
         DispatchQueue.main.async {
             uiView.loopMode = self.configuration.loopMode
+            uiView.speed = self.configuration.speed
             self.configuration.frame = uiView.configuration.frame
             if configuration.isPlaying {
                 if let initialFrame = configuration.initialFrame,
                    let finalFrame = configuration.finalFrame {
-                    uiView.play(fromFrame: initialFrame, toFrame: finalFrame, loopMode: configuration.loopMode) { completed in
-                            configuration.isPlaying = !completed
+                    uiView.play(
+                        fromFrame: initialFrame,
+                        toFrame:finalFrame,
+                        loopMode: configuration.loopMode
+                    ) { completed in
+                        configuration.isPlaying = !completed
                     }
                 } else {
                     uiView.play { completed in
@@ -105,6 +112,14 @@ public extension LottieView {
     func play(fromFrame initialFrame: AnimationFrameTime?, to finalFrame: AnimationFrameTime?) -> LottieView {
         self.configuration.initialFrame = initialFrame
         self.configuration.finalFrame = finalFrame
+        return self
+    }
+    
+    /// Sets the playback speed of the animation
+    /// - Parameter speed: A `CGFloat` value that indicates the speed of the animation playback. Default value is 1. A lower value indicates a slower speed and a higher one indicates a faster playback speed
+    /// - Returns: A view that plays the animation at the provided speed
+    func speed(_ speed: CGFloat) -> LottieView {
+        self.configuration.speed = speed
         return self
     }
 }
