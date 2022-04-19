@@ -11,7 +11,7 @@ import SwiftUI
 
 @available(iOS 13.0, *)
 private struct Lottie: UIViewRepresentable {
-    public typealias UIViewType = AnimationView
+    public typealias UIViewType = WrappedAnimationView
     // Initializer properties
     internal var name: String
     internal var bundle: Bundle = .main
@@ -37,15 +37,14 @@ private struct Lottie: UIViewRepresentable {
         self.animationCache = animationCache
     }
 
-    func makeUIView(context: Context) -> AnimationView {
+    func makeUIView(context: Context) -> WrappedAnimationView {
         let animation = Animation.named(name, bundle: bundle, subdirectory: nil, animationCache: animationCache)
         let provider = imageProvider ?? BundleImageProvider(bundle: bundle, searchPath: nil)
-        let animationView = AnimationView(animation: animation, imageProvider: provider)
-        animationView.loopMode = loopMode
+        let animationView = WrappedAnimationView(animation: animation, provider: provider)
         return animationView
     }
 
-    func updateUIView(_ uiView: AnimationView, context: Context) {
+    func updateUIView(_ uiView: WrappedAnimationView, context: Context) {
         uiView.loopMode = self.loopMode
         self.frame = uiView.currentFrame
         if isPlaying {
