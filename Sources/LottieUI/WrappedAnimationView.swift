@@ -8,10 +8,10 @@
 import UIKit
 import Lottie
 
-internal class WrappedAnimationView: UIView {
+public final class WrappedAnimationView: UIView {
     var animationView: AnimationView!
     
-    init(animation: Lottie.Animation?, provider: AnimationImageProvider?) {
+    init(animation: Animation?, provider: AnimationImageProvider?) {
         let animationView = AnimationView(animation: animation, imageProvider: provider)
         animationView.translatesAutoresizingMaskIntoConstraints = false
         self.animationView = animationView
