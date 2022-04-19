@@ -4,7 +4,27 @@ LottieUI allows you to use Lottie animations and all the advanced settings of Lo
 
 # Installation
 
-// TO-DO
+## Swift Package Manager
+
+In your project's `Package.swift` file, add `LottieUI` as a dependency:
+```swift
+import PackageDescription
+
+let package = Package(
+  name: "YourTestProject",
+  platforms: [
+       .iOS(.v13),
+  ],
+  dependencies: [
+    .package(name: "LottieUI", url: "https://github.com/tfmart/LottieUI", from: "1.0.0")
+  ],
+  targets: [
+    .target(name: "YourTestProject", dependencies: ["LottieUI"])
+  ]
+)
+```
+
+This package can be added to a project thorugh Swift Package Manager browser in Xcode. To do so, open Xcode and select `File -> Add Pacakges...` and type LottieUI or paste this repo's git URL in the search field in the top right of the screen.
 
 # Usage
 
