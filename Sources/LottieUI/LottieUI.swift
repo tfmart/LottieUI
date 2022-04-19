@@ -10,7 +10,7 @@ import Lottie
 import SwiftUI
 
 @available(iOS 13.0, *)
-public struct Lottie: UIViewRepresentable {
+public struct LottieView: UIViewRepresentable {
     public typealias UIViewType = WrappedAnimationView
     // Initializer properties
     internal var name: String
@@ -19,11 +19,7 @@ public struct Lottie: UIViewRepresentable {
     internal var animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache
     
     // Modifier properties
-    @State internal var loopMode: LottieLoopMode = .playOnce
-    @State internal var isPlaying: Bool = true
-    @State internal var frame: AnimationFrameTime = 0
-    @State internal var initialFrame: AnimationFrameTime?
-    @State internal var finalFrame: AnimationFrameTime?
+    @ObservedObject internal var configuration: LottieConfiguration
     
     /// Creates a view that displays a Lottie animation
     /// - Parameters:
@@ -41,6 +37,7 @@ public struct Lottie: UIViewRepresentable {
         self.bundle = bundle
         self.imageProvider = imageProvider
         self.animationCache = animationCache
+        self.configuration = .init()
     }
 
     public func makeUIView(context: Context) -> WrappedAnimationView {
@@ -52,49 +49,49 @@ public struct Lottie: UIViewRepresentable {
 
     public func updateUIView(_ uiView: WrappedAnimationView, context: Context) {
         DispatchQueue.main.async {
-            uiView.loopMode = self.loopMode
-            self.frame = uiView.currentFrame
-            if isPlaying {
-                if let initialFrame = initialFrame,
-                   let finalFrame = finalFrame {
-                    uiView.play(fromFrame: initialFrame, toFrame: finalFrame, loopMode: loopMode) { completed in
-                        isPlaying = !completed
+            uiView.loopMode = self.configuration.loopMode
+            self.configuration.frame = uiView.currentFrame
+            if configuration.isPlaying {
+                if let initialFrame = configuration.initialFrame,
+                   let finalFrame = configuration.finalFrame {
+                    uiView.play(fromFrame: initialFrame, toFrame: finalFrame, loopMode: configuration.loopMode) { completed in
+                            configuration.isPlaying = !completed
                     }
                 } else {
                     uiView.play { completed in
-                        isPlaying = !completed
+                            configuration.isPlaying = !completed
                     }
                 }
             } else {
                 uiView.stop()
-                isPlaying = false
+                    configuration.isPlaying = false
             }
         }
     }
 }
 
-public extension Lottie {
+public extension LottieView {
     /// Sets the loop mode when the Lottie animation is beign played
     /// - Parameter mode: A `LottieLoopMode` configuration to setup the loop mode of the animation
     /// - Returns: A Lottie view with the loop mode supplied
-    func loopMode(_ mode: LottieLoopMode) -> Lottie {
-        self.loopMode = mode
+    func loopMode(_ mode: LottieLoopMode) -> LottieView {
+        self.configuration.loopMode = mode
         return self
     }
     
     /// Control whether the view will be playing the animation or not
     /// - Parameter isPlaying: A Boolean value indicating whether the animation is being played
     /// - Returns: A Lottie view that can control whether the view is being played or not
-    func play(_ isPlaying: Bool) -> Lottie {
-        self.isPlaying = isPlaying
+    func play(_ isPlaying: Bool) -> LottieView {
+        self.configuration.isPlaying = isPlaying
         return self
     }
     
     /// Adds an action to be performed when every time the frame of an animation is changed
     /// - Parameter completion: The action to perform
     /// - Returns: A view that triggers `completion` when the frame changes
-    func onFrame(_ completion: (AnimationFrameTime) -> Void) -> Lottie {
-        completion(self.frame)
+    func onFrame(_ completion: (AnimationFrameTime) -> Void) -> LottieView {
+        completion(self.configuration.frame)
         return self
     }
     
@@ -103,9 +100,9 @@ public extension Lottie {
     ///   - initialFrame: The start frame of the animation. If the paramter is `nil`, the view will animate the entire framerate
     ///   - finalFrame: The end frame of the animation. If the paramter is `nil`, the view will animate the entire framerate
     /// - Returns: A view that displays a specific range of an animation's framerate
-    func play(fromFrame initialFrame: AnimationFrameTime?, to finalFrame: AnimationFrameTime?) -> Lottie {
-        self.initialFrame = initialFrame
-        self.finalFrame = finalFrame
+    func play(fromFrame initialFrame: AnimationFrameTime?, to finalFrame: AnimationFrameTime?) -> LottieView {
+        self.configuration.initialFrame = initialFrame
+        self.configuration.finalFrame = finalFrame
         return self
     }
 }

@@ -5,16 +5,15 @@
 //  Created by Tomas Martins on 18/04/22.
 //
 
-import UIKit
+import SwiftUI
 import Lottie
 
 public final class WrappedAnimationView: UIView {
     var animationView: AnimationView!
     
-    init(animation: Animation?, provider: AnimationImageProvider?) {
+    init(animation: Lottie.Animation?, provider: AnimationImageProvider?) {
         let animationView = AnimationView(animation: animation, imageProvider: provider)
         animationView.translatesAutoresizingMaskIntoConstraints = false
-        self.animationView = animationView
         
         super.init(frame: .zero)
         
@@ -43,7 +42,7 @@ extension WrappedAnimationView {
     }
     
     var currentFrame: AnimationFrameTime {
-        get { animationView.currentFrame }
+        get { animationView.realtimeAnimationFrame }
     }
 
     func play(completion: LottieCompletionBlock?) {
