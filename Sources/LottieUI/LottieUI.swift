@@ -50,7 +50,7 @@ public struct LottieView: UIViewRepresentable {
     public func updateUIView(_ uiView: WrappedAnimationView, context: Context) {
         DispatchQueue.main.async {
             uiView.loopMode = self.configuration.loopMode
-            self.configuration.frame = self.configuration.frame
+            self.configuration.frame = uiView.configuration.frame
             if configuration.isPlaying {
                 if let initialFrame = configuration.initialFrame,
                    let finalFrame = configuration.finalFrame {
@@ -90,9 +90,11 @@ public extension LottieView {
     /// Adds an action to be performed when every time the frame of an animation is changed
     /// - Parameter completion: The action to perform
     /// - Returns: A view that triggers `completion` when the frame changes
-    func onFrame(_ completion: (AnimationFrameTime) -> Void) -> LottieView {
-        completion(self.configuration.frame)
-        return self
+    @available(iOS 14.0, *)
+    func onFrame(_ completion: @escaping (AnimationFrameTime) -> Void) -> some View {
+        self.onReceive(configuration.$frame) { output in
+            completion(output)
+        }
     }
     
     /// Control which frames from the animation framerate will be displayed by the animation. If either `initialFrame` or `finalFrame` parameters are `nil`, the view will animate the entire framerate
