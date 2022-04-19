@@ -43,14 +43,14 @@ public struct LottieView: UIViewRepresentable {
     public func makeUIView(context: Context) -> WrappedAnimationView {
         let animation = Animation.named(name, bundle: bundle, subdirectory: nil, animationCache: animationCache)
         let provider = imageProvider ?? BundleImageProvider(bundle: bundle, searchPath: nil)
-        let animationView = WrappedAnimationView(animation: animation, provider: provider)
+        let animationView = WrappedAnimationView(animation: animation, provider: provider, configuration: configuration)
         return animationView
     }
 
     public func updateUIView(_ uiView: WrappedAnimationView, context: Context) {
         DispatchQueue.main.async {
             uiView.loopMode = self.configuration.loopMode
-            self.configuration.frame = uiView.currentFrame
+            self.configuration.frame = self.configuration.frame
             if configuration.isPlaying {
                 if let initialFrame = configuration.initialFrame,
                    let finalFrame = configuration.finalFrame {

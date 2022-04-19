@@ -5,17 +5,24 @@
 //  Created by Tomas Martins on 18/04/22.
 //
 
-import SwiftUI
 import Lottie
+import SwiftUI
 
 public final class WrappedAnimationView: UIView {
     var animationView: AnimationView!
+    var configuration: LottieConfiguration
+    var displayLink: CADisplayLink?
     
-    init(animation: Lottie.Animation?, provider: AnimationImageProvider?) {
+    init(animation: Lottie.Animation?, provider: AnimationImageProvider?, configuration: LottieConfiguration) {
         let animationView = AnimationView(animation: animation, imageProvider: provider)
         animationView.translatesAutoresizingMaskIntoConstraints = false
+        self.animationView = animationView
+        self.configuration = configuration
         
         super.init(frame: .zero)
+        
+        displayLink = CADisplayLink(target: self, selector: #selector(animationCallback))
+        displayLink?.add(to: .current, forMode: RunLoop.Mode.default)
         
         addSubview(animationView)
         NSLayoutConstraint.activate([
@@ -32,6 +39,12 @@ public final class WrappedAnimationView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    @objc func animationCallback() {
+        if animationView.isAnimationPlaying {
+            configuration.frame = animationView.realtimeAnimationFrame
+        }
+    }
 }
 
 
@@ -39,10 +52,6 @@ extension WrappedAnimationView {
     var loopMode: LottieLoopMode {
         get { animationView.loopMode }
         set { animationView.loopMode = newValue }
-    }
-    
-    var currentFrame: AnimationFrameTime {
-        get { animationView.realtimeAnimationFrame }
     }
 
     func play(completion: LottieCompletionBlock?) {
