@@ -75,7 +75,7 @@ public extension Lottie {
     /// Sets the loop mode when the Lottie animation is beign played
     /// - Parameter mode: A `LottieLoopMode` configuration to setup the loop mode of the animation
     /// - Returns: A Lottie view with the loop mode supplied
-    func loopMode(_ mode: LottieLoopMode) -> some View {
+    func loopMode(_ mode: LottieLoopMode) -> Lottie {
         self.loopMode = mode
         return self
     }
@@ -83,7 +83,7 @@ public extension Lottie {
     /// Control whether the view will be playing the animation or not
     /// - Parameter isPlaying: A Boolean value indicating whether the animation is being played
     /// - Returns: A Lottie view that can control whether the view is being played or not
-    func play(_ isPlaying: Bool) -> some View {
+    func play(_ isPlaying: Bool) -> Lottie {
         self.isPlaying = isPlaying
         return self
     }
@@ -91,7 +91,7 @@ public extension Lottie {
     /// Adds an action to be performed when every time the frame of an animation is changed
     /// - Parameter completion: The action to perform
     /// - Returns: A view that triggers `completion` when the frame changes
-    func onFrame(_ completion: (AnimationFrameTime) -> Void) -> some View {
+    func onFrame(_ completion: (AnimationFrameTime) -> Void) -> Lottie {
         completion(self.frame)
         return self
     }
@@ -101,7 +101,7 @@ public extension Lottie {
     ///   - initialFrame: The start frame of the animation. If the paramter is `nil`, the view will animate the entire framerate
     ///   - finalFrame: The end frame of the animation. If the paramter is `nil`, the view will animate the entire framerate
     /// - Returns: A view that displays a specific range of an animation's framerate
-    func play(fromFrame initialFrame: AnimationFrameTime?, to finalFrame: AnimationFrameTime?) -> some View {
+    func play(fromFrame initialFrame: AnimationFrameTime?, to finalFrame: AnimationFrameTime?) -> Lottie {
         self.initialFrame = initialFrame
         self.finalFrame = finalFrame
         return self
