@@ -51,22 +51,24 @@ public struct Lottie: UIViewRepresentable {
     }
 
     public func updateUIView(_ uiView: WrappedAnimationView, context: Context) {
-        uiView.loopMode = self.loopMode
-        self.frame = uiView.currentFrame
-        if isPlaying {
-            if let initialFrame = initialFrame,
-               let finalFrame = finalFrame {
-                uiView.play(fromFrame: initialFrame, toFrame: finalFrame, loopMode: loopMode) { completed in
-                    isPlaying = !completed
+        DispatchQueue.main.async {
+            uiView.loopMode = self.loopMode
+            self.frame = uiView.currentFrame
+            if isPlaying {
+                if let initialFrame = initialFrame,
+                   let finalFrame = finalFrame {
+                    uiView.play(fromFrame: initialFrame, toFrame: finalFrame, loopMode: loopMode) { completed in
+                        isPlaying = !completed
+                    }
+                } else {
+                    uiView.play { completed in
+                        isPlaying = !completed
+                    }
                 }
             } else {
-                uiView.play { completed in
-                    isPlaying = !completed
-                }
+                uiView.stop()
+                isPlaying = false
             }
-        } else {
-            uiView.stop()
-            isPlaying = false
         }
     }
 }
