@@ -12,6 +12,7 @@ public class LottieConfiguration: ObservableObject {
     @Published internal var loopMode: LottieLoopMode = .playOnce
     @Published internal var isPlaying: Bool = true
     @Published internal var frame: AnimationFrameTime = 0
+    @Published internal var progress: AnimationProgressTime = .zero
     @Published internal var initialFrame: AnimationFrameTime?
     @Published internal var finalFrame: AnimationFrameTime?
     @Published internal var speed: CGFloat = 1.0

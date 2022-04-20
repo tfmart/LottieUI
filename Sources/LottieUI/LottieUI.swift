@@ -55,6 +55,7 @@ public struct LottieView: UIViewRepresentable {
             uiView.speed = self.configuration.speed
             uiView.backgroundBehavior = self.configuration.backgroundBehavior
             self.configuration.frame = uiView.configuration.frame
+            self.configuration.progress = uiView.configuration.progress
             uiView.setValueProvider(configuration.valueProvider,
                                     keypath: configuration.keypath)
             if configuration.isPlaying {
@@ -100,10 +101,18 @@ public extension LottieView {
     /// Adds an action to be performed when every time the frame of an animation is changed
     /// - Parameter completion: The action to perform
     /// - Returns: A view that triggers `completion` when the frame changes
-    @available(iOS 14.0, *)
     func onFrame(_ completion: @escaping (AnimationFrameTime) -> Void) -> some View {
         self.onReceive(configuration.$frame) { output in
             completion(output)
+        }
+    }
+    
+    /// Adds an action to be performed each time the animation progress is changed
+    /// - Parameter completion: The action to perform
+    /// - Returns: A view that triggers `completion` when the progress changes
+    func onProgress(_ completion: @escaping (AnimationProgressTime) -> Void) -> some View {
+        self.onReceive(configuration.$progress) { progress in
+            completion(progress)
         }
     }
     

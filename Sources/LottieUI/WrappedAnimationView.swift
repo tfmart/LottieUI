@@ -43,6 +43,7 @@ public final class WrappedAnimationView: UIView {
     @objc func animationCallback() {
         if animationView.isAnimationPlaying {
             configuration.frame = animationView.realtimeAnimationFrame
+            configuration.progress = animationView.realtimeAnimationProgress
         }
     }
 }
