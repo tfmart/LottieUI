@@ -15,4 +15,6 @@ public class LottieConfiguration: ObservableObject {
     @Published internal var initialFrame: AnimationFrameTime?
     @Published internal var finalFrame: AnimationFrameTime?
     @Published internal var speed: CGFloat = 1.0
+    @Published internal var valueProvider: AnyValueProvider?
+    @Published internal var keypath: AnimationKeypath?
 }

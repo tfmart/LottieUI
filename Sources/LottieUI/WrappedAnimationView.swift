@@ -58,6 +58,15 @@ extension WrappedAnimationView {
         get { animationView.animationSpeed }
         set { animationView.animationSpeed = newValue }
     }
+    
+    func setValueProvider( _ valueProvider: AnyValueProvider?, keypath: AnimationKeypath?) {
+        guard let valueProvider = valueProvider,
+        let keypath = keypath else {
+            return
+        }
+        animationView.setValueProvider(valueProvider, keypath: keypath)
+
+    }
 
     func play(completion: LottieCompletionBlock?) {
         animationView.play(completion: completion)

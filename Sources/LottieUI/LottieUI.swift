@@ -54,6 +54,8 @@ public struct LottieView: UIViewRepresentable {
             uiView.loopMode = self.configuration.loopMode
             uiView.speed = self.configuration.speed
             self.configuration.frame = uiView.configuration.frame
+            uiView.setValueProvider(configuration.valueProvider,
+                                    keypath: configuration.keypath)
             if configuration.isPlaying {
                 if let initialFrame = configuration.initialFrame,
                    let finalFrame = configuration.finalFrame {
@@ -120,6 +122,17 @@ public extension LottieView {
     /// - Returns: A view that plays the animation at the provided speed
     func speed(_ speed: CGFloat) -> LottieView {
         self.configuration.speed = speed
+        return self
+    }
+    
+    /// Sets a value provider for a specific keypath, allowing to change an Lottie animation properties in real time
+    /// - Parameters:
+    ///   - valueProvider: The new value provider for the properties
+    ///   - keypath: The kyepath used to search for properties
+    /// - Returns: A view with an animation with the altered properties, if the keypath is valid
+    func valueProvider(_ valueProvider: AnyValueProvider?, keypath: AnimationKeypath?) -> LottieView {
+        self.configuration.valueProvider = valueProvider
+        self.configuration.keypath = keypath
         return self
     }
 }
