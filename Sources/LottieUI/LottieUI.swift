@@ -64,27 +64,6 @@ public struct LottieView: UIViewRepresentable {
               FilepathImageProvider(filepath: URL(fileURLWithPath: path).deletingLastPathComponent().path)
             let animationView = WrappedAnimationView(animation: animation, provider: provider, configuration: configuration)
             return animationView
-        case .async(let url,
-                    let imageProvider,
-                    let closure,
-                    let animationCache):
-            return .init(animation: nil, provider: nil, configuration: configuration)
-//            if let animationCache = animationCache, let animation = animationCache.animation(forKey: url.absoluteString) {
-//                return .init(animation: animation, provider: imageProvider, configuration: configuration)
-//              closure(nil)
-//            } else {
-//              let animation = Animation.loadedFrom(url: url, closure: { animation in
-//                if let animation = animation {
-//                  self.animation = animation
-//                  closure(nil)
-//                } else {
-//                  closure(LottieDownloadError.downloadFailed)
-//                }
-//              }, animationCache: animationCache)
-//
-//                return .init(animation: animation,
-//                             provider: imageProvider, configuration: configuration)
-//            }
         }
     }
 
