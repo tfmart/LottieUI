@@ -17,4 +17,5 @@ public class LottieConfiguration: ObservableObject {
     @Published internal var speed: CGFloat = 1.0
     @Published internal var valueProvider: AnyValueProvider?
     @Published internal var keypath: AnimationKeypath?
+    @Published internal var backgroundBehavior: LottieBackgroundBehavior = .pause
 }

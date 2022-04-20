@@ -53,6 +53,7 @@ public struct LottieView: UIViewRepresentable {
         DispatchQueue.main.async {
             uiView.loopMode = self.configuration.loopMode
             uiView.speed = self.configuration.speed
+            uiView.backgroundBehavior = self.configuration.backgroundBehavior
             self.configuration.frame = uiView.configuration.frame
             uiView.setValueProvider(configuration.valueProvider,
                                     keypath: configuration.keypath)
@@ -133,6 +134,14 @@ public extension LottieView {
     func valueProvider(_ valueProvider: AnyValueProvider?, keypath: AnimationKeypath?) -> LottieView {
         self.configuration.valueProvider = valueProvider
         self.configuration.keypath = keypath
+        return self
+    }
+    
+    /// Sets the behavior of the animation when the view is moved to the background
+    /// - Parameter backgroundBehavior: The expected behavior for when the view is moved to the background
+    /// - Returns: A view with a Lottie animation with the supplied behavior setting
+    func backgroundBehavior(_ backgroundBehavior: LottieBackgroundBehavior) -> LottieView {
+        self.configuration.backgroundBehavior = backgroundBehavior
         return self
     }
 }

@@ -59,6 +59,11 @@ extension WrappedAnimationView {
         set { animationView.animationSpeed = newValue }
     }
     
+    var backgroundBehavior: LottieBackgroundBehavior {
+        get { animationView.backgroundBehavior }
+        set { animationView.backgroundBehavior = newValue }
+    }
+    
     func setValueProvider( _ valueProvider: AnyValueProvider?, keypath: AnimationKeypath?) {
         guard let valueProvider = valueProvider,
         let keypath = keypath else {
