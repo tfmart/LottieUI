@@ -18,8 +18,8 @@ internal enum LottieContentSource {
                   imageProvider: AnimationImageProvider?,
                   animationCache: AnimationCacheProvider?)
     
-    case async(url: URL,
-               imageProvider: AnimationImageProvider?,
-               closure: AnimationView.DownloadClosure,
-               animationCache: AnimationCacheProvider?)
+//    case async(url: URL,
+//               imageProvider: AnimationImageProvider?,
+//               closure: AnimationView.DownloadClosure,
+//               animationCache: AnimationCacheProvider?)
 }
