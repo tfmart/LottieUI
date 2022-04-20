@@ -13,10 +13,11 @@ import SwiftUI
 public struct LottieView: UIViewRepresentable {
     public typealias UIViewType = WrappedAnimationView
     // Initializer properties
-    internal var name: String
-    internal var bundle: Bundle = .main
-    internal var imageProvider: AnimationImageProvider?
-    internal var animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache
+    internal var contentSource: LottieContentSource
+//    internal var name: String
+//    internal var bundle: Bundle = .main
+//    internal var imageProvider: AnimationImageProvider?
+//    internal var animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache
     
     // Modifier properties
     @ObservedObject internal var configuration: LottieConfiguration
@@ -33,20 +34,58 @@ public struct LottieView: UIViewRepresentable {
         imageProvider: AnimationImageProvider? = nil,
         animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache
     ) {
-        self.name = name
-        self.bundle = bundle
-        self.imageProvider = imageProvider
-        self.animationCache = animationCache
+        self.contentSource = .bundle(name: name,
+                                     bunle: bundle,
+                                     imageProvider: imageProvider,
+                                     animationCache: animationCache)
         self.configuration = .init()
     }
 
     public func makeUIView(context: Context) -> WrappedAnimationView {
-        let animation = Animation.named(name, bundle: bundle,
-                                        subdirectory: nil, animationCache: animationCache)
-        let provider = imageProvider ?? BundleImageProvider(bundle: bundle, searchPath: nil)
-        let animationView = WrappedAnimationView(animation: animation, provider: provider,
-                                                 configuration: configuration)
-        return animationView
+        switch contentSource {
+        case .bundle(let name,
+                     let bundle,
+                     let imageProvider,
+                     let animationCache):
+            let animation = Animation.named(name,
+                                            bundle: bundle,
+                                            subdirectory: nil,
+                                            animationCache: animationCache)
+            let provider = imageProvider ?? BundleImageProvider(bundle: bundle, searchPath: nil)
+            let animationView = WrappedAnimationView(animation: animation, provider: provider,
+                                                     configuration: configuration)
+            return animationView
+        case .filepath(let path,
+                       let imageProvider,
+                       let animationCache):
+            let animation = Animation.filepath(path,
+                                               animationCache: animationCache)
+            let provider = imageProvider ??
+              FilepathImageProvider(filepath: URL(fileURLWithPath: path).deletingLastPathComponent().path)
+            let animationView = WrappedAnimationView(animation: animation, provider: provider, configuration: configuration)
+            return animationView
+        case .async(let url,
+                    let imageProvider,
+                    let closure,
+                    let animationCache):
+            return .init(animation: nil, provider: nil, configuration: configuration)
+//            if let animationCache = animationCache, let animation = animationCache.animation(forKey: url.absoluteString) {
+//                return .init(animation: animation, provider: imageProvider, configuration: configuration)
+//              closure(nil)
+//            } else {
+//              let animation = Animation.loadedFrom(url: url, closure: { animation in
+//                if let animation = animation {
+//                  self.animation = animation
+//                  closure(nil)
+//                } else {
+//                  closure(LottieDownloadError.downloadFailed)
+//                }
+//              }, animationCache: animationCache)
+//
+//                return .init(animation: animation,
+//                             provider: imageProvider, configuration: configuration)
+//            }
+        }
     }
 
     public func updateUIView(_ uiView: WrappedAnimationView, context: Context) {

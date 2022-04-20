@@ -10,11 +10,12 @@ import Foundation
 
 internal enum LottieContentSource {
     case bundle(name: String,
-                bunle: Bundle,
+                bundle: Bundle,
                 imageProvider: AnimationImageProvider?,
                 animationCache: AnimationCacheProvider?)
     
     case filepath(path: String,
+                  imageProvider: AnimationImageProvider?,
                   animationCache: AnimationCacheProvider?)
     
     case async(url: URL,
