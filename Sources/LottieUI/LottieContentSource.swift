@@ -17,9 +17,4 @@ internal enum LottieContentSource {
     case filepath(path: String,
                   imageProvider: AnimationImageProvider?,
                   animationCache: AnimationCacheProvider?)
-    
-//    case async(url: URL,
-//               imageProvider: AnimationImageProvider?,
-//               closure: AnimationView.DownloadClosure,
-//               animationCache: AnimationCacheProvider?)
 }
