@@ -14,10 +14,6 @@ public struct LottieView: UIViewRepresentable {
     public typealias UIViewType = WrappedAnimationView
     // Initializer properties
     internal var contentSource: LottieContentSource
-//    internal var name: String
-//    internal var bundle: Bundle = .main
-//    internal var imageProvider: AnimationImageProvider?
-//    internal var animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache
     
     // Modifier properties
     @ObservedObject internal var configuration: LottieConfiguration
@@ -35,7 +31,7 @@ public struct LottieView: UIViewRepresentable {
         animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache
     ) {
         self.contentSource = .bundle(name: name,
-                                     bunle: bundle,
+                                     bundle: bundle,
                                      imageProvider: imageProvider,
                                      animationCache: animationCache)
         self.configuration = .init()
