@@ -8,9 +8,9 @@
 import Lottie
 import SwiftUI
 
-public struct AsyncLottieView<Content: View>: View {
-    let lottieView: (LottieView) -> LottieView
-    let placeholder: () -> Content
+public struct AsyncLottieView<Content: View, Placeholder: View>: View {
+    let lottieView: (LottieView) -> Content
+    let placeholder: () -> Placeholder
     let url: URL
     let cacheProvider: AnimationCacheProvider?
 
@@ -19,8 +19,8 @@ public struct AsyncLottieView<Content: View>: View {
     public init(
         url: URL,
         animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache,
-        @ViewBuilder animation: @escaping (LottieView) -> LottieView,
-        @ViewBuilder placeholder: @escaping () -> Content
+        @ViewBuilder animation: @escaping (LottieView) -> Content,
+        @ViewBuilder placeholder: @escaping () -> Placeholder
     ) {
         self.url = url
         self.cacheProvider = animationCache
