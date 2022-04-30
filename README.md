@@ -8,12 +8,14 @@ LottieUI allows you to use Lottie animations and all the advanced settings of Lo
 
 In your project's `Package.swift` file, add `LottieUI` as a dependency:
 ```swift
-dependencies: [
-    .package(name: "LottieUI", url: "https://github.com/tfmart/LottieUI", from: "1.0.0"),
-]
+.package(name: "LottieUI", url: "https://github.com/tfmart/LottieUI", from: "1.0.0")
 ```
 
 This package can be added to a project thorugh Swift Package Manager browser in Xcode. To do so, open Xcode and select `File -> Add Pacakges...` and type LottieUI or paste this repo's git URL in the search field in the top right of the screen.
+
+# Requirements
+
+- iOS 13.0 or later
 
 # Usage
 
@@ -21,6 +23,31 @@ You can quickly present a local Lottie JSON file in your project with:
 
 ```swift
 LottieView("MyAnimation")
+```
+
+## Remote files
+
+To load an animation from a URL, LottieUI provides `AsyncLottieView` that will display the animation from the provided url and a placeholder view while the animation is downloaded
+
+```swift
+let url = URL(string: "https://assets3.lottiefiles.com/packages/lf20_hbdelex6.json")!
+
+AsyncLottieView(url: url) { lottieView in
+    lottieView
+placeholder: {
+    ProgressView()
+}
+```
+
+## Local files
+
+It's also possible to load Lottie files from another Bundle or from a specific file path:
+
+```swift
+// Loads an animation from the provided bundle
+LottieView("MyAnimation", bundle: DesignSystem.Bundle.main)
+// Loads an animation file from the provided path
+LottieView(path: "/path/to/animation.json")
 ```
 
 ## Play and Stop
@@ -98,4 +125,4 @@ There are many other options available such as:
 - Define the background behavior of the animation with `.backgroundBehavior(_ backgroundBehavior)`
 - Set the value provider for a specific keypath of the animation with `.valueProvider(_ valueProvider: keypath:)`
 
-For more information check the included documentation in each public component and modifier
+For more information check the included documentation in each public component and modifiers
