@@ -10,6 +10,7 @@ import Lottie
 import SwiftUI
 
 @available(iOS 13.0, *)
+/// A SwiftUI view that presents a Lottie animation that is stored locally. To present animation from a remote URL, use `AsyncLottieView` instead.
 public struct LottieView: UIViewRepresentable {
     public typealias UIViewType = WrappedAnimationView
     // Initializer properties

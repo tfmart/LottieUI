@@ -8,6 +8,7 @@
 import Lottie
 import SwiftUI
 
+/// A SwiftUI view to present a Lottie animation from a remote URL. To present an animation from a local file, use `LottieView` instead.
 public struct AsyncLottieView<Content: View, Placeholder: View>: View {
     let lottieView: (LottieView) -> Content
     let placeholder: () -> Placeholder
@@ -15,7 +16,13 @@ public struct AsyncLottieView<Content: View, Placeholder: View>: View {
     let cacheProvider: AnimationCacheProvider?
 
     @State private var animation: Lottie.Animation?
-
+    
+    /// Creates a view that presents an animation from a remote URL
+    /// - Parameters:
+    ///   - url: The URL of the Lottie animation to be displayed
+    ///   - animationCache: Cache to improve performance when playing recurrent animations.
+    ///   - animation: A closure that takes a `LottieView` as an input and returns a view with the animation to be displayed. You can modify the animation view as needed before running it.
+    ///   - placeholder: A closure that returns the view to be displayed until the Lottie is successfully downloaded.
     public init(
         url: URL,
         animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache,
@@ -30,8 +37,8 @@ public struct AsyncLottieView<Content: View, Placeholder: View>: View {
 
     public var body: some View {
         VStack {
-            if animation != nil {
-                lottieView(lottie)
+            if let animation = animation {
+                lottieView(LottieView(animation: animation))
             } else {
                 placeholder()
             }
@@ -43,16 +50,13 @@ public struct AsyncLottieView<Content: View, Placeholder: View>: View {
             }, animationCache: cacheProvider)
         }
     }
-
-    var lottie: LottieView {
-        LottieView.init(animation: self.animation!)
-    }
 }
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         AsyncLottieView(url: .init(string: "https://assets3.lottiefiles.com/packages/lf20_hbdelex6.json")!) { lottieView in
             lottieView
+                .loopMode(.loop)
         } placeholder: {
             Text("Loading")
         }
