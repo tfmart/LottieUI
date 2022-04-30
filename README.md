@@ -1,23 +1,12 @@
 # LottieUI
 
-LottieUI allows you to use Lottie animations and all the advanced settings of Lottie's AnimationView, without having to give up on the declarative syntax of SwiftUI. Your Lottie animations will feel right at home alongside your SwiftUI views!
+LottieUI allows you to use [Lottie](https://airbnb.design/lottie/) animations and all the advanced settings of Lottie's AnimationView, without having to give up on the declarative syntax of SwiftUI. Your Lottie animations will feel right at home alongside your SwiftUI views!
 
-# Installation
+### ✅ Requirements
 
-## Swift Package Manager
+Currently, LottieUI works only with iOS 13.0 or later.
 
-In your project's `Package.swift` file, add `LottieUI` as a dependency:
-```swift
-.package(name: "LottieUI", url: "https://github.com/tfmart/LottieUI", from: "1.0.0")
-```
-
-This package can be added to a project thorugh Swift Package Manager browser in Xcode. To do so, open Xcode and select `File -> Add Pacakges...` and type LottieUI or paste this repo's git URL in the search field in the top right of the screen.
-
-# Requirements
-
-- iOS 13.0 or later
-
-# Usage
+# 🧑‍💻 Usage
 
 You can quickly present a local Lottie JSON file in your project with:
 
@@ -25,7 +14,7 @@ You can quickly present a local Lottie JSON file in your project with:
 LottieView("MyAnimation")
 ```
 
-## Remote files
+## 🛰 Remote animationa
 
 To load an animation from a URL, LottieUI provides `AsyncLottieView` that will display the animation from the provided url and a placeholder view while the animation is downloaded
 
@@ -39,7 +28,7 @@ placeholder: {
 }
 ```
 
-## Local files
+## 🗂 Local files
 
 It's also possible to load Lottie files from another Bundle or from a specific file path:
 
@@ -50,7 +39,9 @@ LottieView("MyAnimation", bundle: DesignSystem.Bundle.main)
 LottieView(path: "/path/to/animation.json")
 ```
 
-## Play and Stop
+# 🚀 Features
+
+## ⏯ Play and Stop
 
 By default, your animation will start playing automatically. To control whether the animation should be playing, simply use the `.play(_ isPlaying)` modifier:
 
@@ -65,7 +56,7 @@ struct ContentView: View {
 }
 ```
 
-## Loop Mode
+## 🔁 Loop Mode
 
 To setup a Loop Mode for your animation, use `.loopMode(_ mode)`:
 
@@ -78,7 +69,7 @@ struct ContentView: View {
 }
 ```
 
-## Current Frame and Progress
+## 🖼 Current Frame and Progress
 
 To observe the current frame beign displayed in the animation and perform an action based on it, use `.onFrame(_ completion:)`
 
@@ -106,7 +97,7 @@ struct ContentView: View {
 }
 ```
 
-## Speed
+## 🏃 Speed
 
 To set the speed of an animation, use `.speed(_ speed)`:
 
@@ -126,3 +117,12 @@ There are many other options available such as:
 - Set the value provider for a specific keypath of the animation with `.valueProvider(_ valueProvider: keypath:)`
 
 For more information check the included documentation in each public component and modifiers
+
+# 🛠 Installation
+
+## Swift Package Manager
+
+In your project's `Package.swift` file, add `LottieUI` as a dependency:
+```swift
+.package(name: "LottieUI", url: "https://github.com/tfmart/LottieUI", from: "1.0.0")
+```
