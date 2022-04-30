@@ -17,4 +17,6 @@ internal enum LottieContentSource {
     case filepath(path: String,
                   imageProvider: AnimationImageProvider?,
                   animationCache: AnimationCacheProvider?)
+
+    case animation(_ animation: Animation)
 }

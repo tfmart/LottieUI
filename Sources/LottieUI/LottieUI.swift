@@ -36,6 +36,11 @@ public struct LottieView: UIViewRepresentable {
                                      animationCache: animationCache)
         self.configuration = .init()
     }
+    
+    internal init(animation: Lottie.Animation) {
+        self.contentSource = .animation(animation)
+        self.configuration = .init()
+    }
 
     public func makeUIView(context: Context) -> WrappedAnimationView {
         switch contentSource {
@@ -51,6 +56,7 @@ public struct LottieView: UIViewRepresentable {
             let animationView = WrappedAnimationView(animation: animation, provider: provider,
                                                      configuration: configuration)
             return animationView
+            
         case .filepath(let path,
                        let imageProvider,
                        let animationCache):
@@ -60,6 +66,11 @@ public struct LottieView: UIViewRepresentable {
               FilepathImageProvider(filepath: URL(fileURLWithPath: path).deletingLastPathComponent().path)
             let animationView = WrappedAnimationView(animation: animation, provider: provider, configuration: configuration)
             return animationView
+            
+        case .animation(let animation):
+            return .init(animation: animation,
+                         provider: nil,
+                         configuration: configuration)
         }
     }
 
