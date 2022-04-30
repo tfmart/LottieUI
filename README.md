@@ -14,7 +14,7 @@ You can quickly present a local Lottie JSON file in your project with:
 LottieView("MyAnimation")
 ```
 
-## 🛰 Remote animationa
+## 🛰 Remote animations
 
 To load an animation from a URL, LottieUI provides `AsyncLottieView` that will display the animation from the provided url and a placeholder view while the animation is downloaded
 
@@ -91,7 +91,7 @@ struct ContentView: View {
     var body: some View {
         LottieView("MyAnimation")
             .onProgress { _ in
-                // Perform action based on current frame
+                // Perform action based on current progress
             }
     }
 }
