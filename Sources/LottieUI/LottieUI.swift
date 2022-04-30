@@ -37,6 +37,22 @@ public struct LottieView: UIViewRepresentable {
         self.configuration = .init()
     }
     
+    /// Creates a view that displays a Lottie animation from a local file located at the provided path
+    /// - Parameters:
+    ///   - path: The path to the Lottie animation file
+    ///   - imageProvider: Instance of `AnimationImageProvider`, which providers images to the animation view
+    ///   - animationCache: Cache to improve performance when playing recurrent animations
+    public init(
+        path: String,
+        imageProvider: AnimationImageProvider? = nil,
+        animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache
+    ) {
+        self.contentSource = .filepath(path: path,
+                                       imageProvider: imageProvider,
+                                       animationCache: animationCache)
+        self.configuration = .init()
+    }
+    
     internal init(animation: Lottie.Animation) {
         self.contentSource = .animation(animation)
         self.configuration = .init()
