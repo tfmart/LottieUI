@@ -23,7 +23,7 @@ let url = URL(string: "https://assets3.lottiefiles.com/packages/lf20_hbdelex6.js
 
 AsyncLottieView(url: url) { lottieView in
     lottieView
-placeholder: {
+} placeholder: {
     ProgressView()
 }
 ```
