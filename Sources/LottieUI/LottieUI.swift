@@ -8,6 +8,7 @@
 
 import Lottie
 import SwiftUI
+import Combine
 
 @available(iOS 13.0, *)
 /// A SwiftUI view that presents a Lottie animation that is stored locally. To present animation from a remote URL, use `AsyncLottieView` instead.
@@ -96,8 +97,9 @@ public struct LottieView: UIViewRepresentable {
             uiView.loopMode = self.configuration.loopMode
             uiView.speed = self.configuration.speed
             uiView.backgroundBehavior = self.configuration.backgroundBehavior
-            self.configuration.frame = uiView.configuration.frame
-            self.configuration.progress = uiView.configuration.progress
+            uiView.observer = .init(animationView: uiView.animationView,
+                                    onFrameChange: self.configuration.currentFrame,
+                                    onProgressChange: self.configuration.currentProgress)
             uiView.setValueProvider(configuration.valueProvider,
                                     keypath: configuration.keypath)
             if configuration.isPlaying {
@@ -139,19 +141,17 @@ public extension LottieView {
     /// Adds an action to be performed when every time the frame of an animation is changed
     /// - Parameter completion: The action to perform
     /// - Returns: A view that triggers `completion` when the frame changes
-    func onFrame(_ completion: @escaping (AnimationFrameTime) -> Void) -> some View {
-        self.onReceive(configuration.$frame) { output in
-            completion(output)
-        }
+    func onFrame(_ completion: @escaping (AnimationFrameTime) -> Void) -> LottieView {
+        self.configuration.currentFrame = completion
+        return self
     }
     
     /// Adds an action to be performed each time the animation progress is changed
     /// - Parameter completion: The action to perform
     /// - Returns: A view that triggers `completion` when the progress changes
-    func onProgress(_ completion: @escaping (AnimationProgressTime) -> Void) -> some View {
-        self.onReceive(configuration.$progress) { progress in
-            completion(progress)
-        }
+    func onProgress(_ completion: @escaping (AnimationProgressTime) -> Void) -> LottieView {
+        self.configuration.currentProgress = completion
+        return self
     }
     
     /// Control which frames from the animation framerate will be displayed by the animation. If either `initialFrame` or `finalFrame` parameters are `nil`, the view will animate the entire framerate

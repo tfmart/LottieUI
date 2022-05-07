@@ -11,19 +11,19 @@ import SwiftUI
 public final class WrappedAnimationView: UIView {
     var animationView: AnimationView!
     var configuration: LottieConfiguration
-    var displayLink: CADisplayLink?
+    var observer: AnimationProgressObserver
     
     init(animation: Lottie.Animation?, provider: AnimationImageProvider?, configuration: LottieConfiguration) {
         let animationView = AnimationView(animation: animation, imageProvider: provider)
         animationView.translatesAutoresizingMaskIntoConstraints = false
         self.animationView = animationView
         self.configuration = configuration
+        self.observer = .init(animationView: animationView,
+                              onFrameChange: self.configuration.currentFrame,
+                              onProgressChange: self.configuration.currentProgress)
         
         super.init(frame: .zero)
-        
-        displayLink = CADisplayLink(target: self, selector: #selector(animationCallback))
-        displayLink?.add(to: .current, forMode: RunLoop.Mode.default)
-        
+      
         addSubview(animationView)
         NSLayoutConstraint.activate([
             animationView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
@@ -38,13 +38,6 @@ public final class WrappedAnimationView: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    @objc func animationCallback() {
-        if animationView.isAnimationPlaying {
-            configuration.frame = animationView.realtimeAnimationFrame
-            configuration.progress = animationView.realtimeAnimationProgress
-        }
     }
 }
 
