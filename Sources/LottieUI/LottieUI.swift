@@ -106,18 +106,14 @@ public struct LottieView: UIViewRepresentable {
                     uiView.play(
                         fromFrame: initialFrame,
                         toFrame:finalFrame,
-                        loopMode: configuration.loopMode
-                    ) { completed in
-                        configuration.isPlaying = !completed
-                    }
+                        loopMode: configuration.loopMode,
+                        nil
+                    )
                 } else {
-                    uiView.play { completed in
-                            configuration.isPlaying = !completed
-                    }
+                    uiView.play(completion: nil)
                 }
             } else {
                 uiView.stop()
-                    configuration.isPlaying = false
             }
         }
     }
