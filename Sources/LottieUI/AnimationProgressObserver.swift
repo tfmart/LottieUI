@@ -11,8 +11,8 @@ import CoreGraphics
 
 internal class AnimationProgressObserver {
     private var animationView: AnimationView
-    private var onFrameChange: ((CGFloat) -> Void)?
-    private var onProgressChange: ((CGFloat) -> Void)?
+    internal var onFrameChange: ((CGFloat) -> Void)?
+    internal var onProgressChange: ((CGFloat) -> Void)?
     private var lastAnimationProgress: CGFloat = -1
     private var lastAnimationFrame: CGFloat = -1
     

@@ -97,9 +97,8 @@ public struct LottieView: UIViewRepresentable {
             uiView.loopMode = self.configuration.loopMode
             uiView.speed = self.configuration.speed
             uiView.backgroundBehavior = self.configuration.backgroundBehavior
-            uiView.observer = .init(animationView: uiView.animationView,
-                                    onFrameChange: self.configuration.currentFrame,
-                                    onProgressChange: self.configuration.currentProgress)
+            uiView.onFrame = self.configuration.currentFrame
+            uiView.onProgress = self.configuration.currentProgress
             uiView.setValueProvider(configuration.valueProvider,
                                     keypath: configuration.keypath)
             if configuration.isPlaying {

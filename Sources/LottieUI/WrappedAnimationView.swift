@@ -19,8 +19,8 @@ public final class WrappedAnimationView: UIView {
         self.animationView = animationView
         self.configuration = configuration
         self.observer = .init(animationView: animationView,
-                              onFrameChange: self.configuration.currentFrame,
-                              onProgressChange: self.configuration.currentProgress)
+                              onFrameChange: nil,
+                              onProgressChange: nil)
         
         super.init(frame: .zero)
       
@@ -56,6 +56,16 @@ extension WrappedAnimationView {
     var backgroundBehavior: LottieBackgroundBehavior {
         get { animationView.backgroundBehavior }
         set { animationView.backgroundBehavior = newValue }
+    }
+    
+    var onFrame: ((CGFloat) -> Void)? {
+        get { observer.onFrameChange }
+        set { observer.onFrameChange = newValue }
+    }
+    
+    var onProgress: ((CGFloat) -> Void)? {
+        get { observer.onProgressChange }
+        set { observer.onProgressChange = newValue }
     }
     
     func setValueProvider( _ valueProvider: AnyValueProvider?, keypath: AnimationKeypath?) {
