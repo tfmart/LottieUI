@@ -190,6 +190,9 @@ public extension LottieView {
         return self
     }
     
+    /// Sets the rendering engine to be used by the animation. Default value is `.automatic`, which uses the `.coreAnimation` for supported animations or fall backs to `.mainThread` if the animation is not compatible
+    /// - Parameter renderingEngine: The rendering engine implementation to use when displaying an animation
+    /// - Returns: A view with a Lottie animation that uses the provided rendering engine
     func renderingEngine(_ renderingEngine: RenderingEngineOption) -> LottieView {
         self.configuration.renderingEngine = renderingEngine
         return self
