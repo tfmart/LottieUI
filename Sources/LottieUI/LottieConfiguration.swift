@@ -19,4 +19,5 @@ public class LottieConfiguration: ObservableObject {
     @Published internal var backgroundBehavior: LottieBackgroundBehavior = .pause
     @Published internal var currentProgress: ((AnimationProgressTime) -> Void)?
     @Published internal var currentFrame: ((AnimationFrameTime) -> Void)?
+    @Published internal var renderingEngine: RenderingEngineOption = .automatic
 }

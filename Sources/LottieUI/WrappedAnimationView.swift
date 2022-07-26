@@ -10,14 +10,12 @@ import SwiftUI
 
 public final class WrappedAnimationView: UIView {
     var animationView: AnimationView!
-    var configuration: LottieConfiguration
     var observer: AnimationProgressObserver
     
-    init(animation: Lottie.Animation?, provider: AnimationImageProvider?, configuration: LottieConfiguration) {
+    init(animation: Lottie.Animation?, provider: AnimationImageProvider?) {
         let animationView = AnimationView(animation: animation, imageProvider: provider)
         animationView.translatesAutoresizingMaskIntoConstraints = false
         self.animationView = animationView
-        self.configuration = configuration
         self.observer = .init(animationView: animationView,
                               onFrameChange: nil,
                               onProgressChange: nil)
@@ -38,6 +36,29 @@ public final class WrappedAnimationView: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func update(withEngine renderingEngine: RenderingEngineOption) {
+        let animation = animationView.animation
+        let imageProvider = animationView.imageProvider
+        animationView.removeFromSuperview()
+        self.animationView = AnimationView(animation: animation,
+                                             imageProvider: imageProvider,
+                                             configuration: .init(renderingEngine: renderingEngine))
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        self.observer = .init(animationView: animationView,
+                              onFrameChange: nil,
+                              onProgressChange: nil)
+        addSubview(animationView)
+        NSLayoutConstraint.activate([
+            animationView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
+            animationView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor),
+            animationView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor),
+            animationView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+            animationView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            animationView.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+        
     }
 }
 
@@ -66,6 +87,14 @@ extension WrappedAnimationView {
     var onProgress: ((CGFloat) -> Void)? {
         get { observer.onProgressChange }
         set { observer.onProgressChange = newValue }
+    }
+    
+    var renderingEngine: RenderingEngineOption {
+        get { animationView.configuration.renderingEngine }
+        set {
+            guard newValue != animationView.configuration.renderingEngine else { return }
+            update(withEngine: newValue)
+        }
     }
     
     func setValueProvider( _ valueProvider: AnyValueProvider?, keypath: AnimationKeypath?) {

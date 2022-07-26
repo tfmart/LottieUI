@@ -71,8 +71,7 @@ public struct LottieView: UIViewRepresentable {
                                             subdirectory: nil,
                                             animationCache: animationCache)
             let provider = imageProvider ?? BundleImageProvider(bundle: bundle, searchPath: nil)
-            let animationView = WrappedAnimationView(animation: animation, provider: provider,
-                                                     configuration: configuration)
+            let animationView = WrappedAnimationView(animation: animation, provider: provider)
             return animationView
             
         case .filepath(let path,
@@ -82,18 +81,18 @@ public struct LottieView: UIViewRepresentable {
                                                animationCache: animationCache)
             let provider = imageProvider ??
               FilepathImageProvider(filepath: URL(fileURLWithPath: path).deletingLastPathComponent().path)
-            let animationView = WrappedAnimationView(animation: animation, provider: provider, configuration: configuration)
+            let animationView = WrappedAnimationView(animation: animation, provider: provider)
             return animationView
             
         case .animation(let animation):
             return .init(animation: animation,
-                         provider: nil,
-                         configuration: configuration)
+                         provider: nil)
         }
     }
 
     public func updateUIView(_ uiView: WrappedAnimationView, context: Context) {
         DispatchQueue.main.async {
+            uiView.renderingEngine = self.configuration.renderingEngine
             uiView.loopMode = self.configuration.loopMode
             uiView.speed = self.configuration.speed
             uiView.backgroundBehavior = self.configuration.backgroundBehavior
@@ -188,6 +187,11 @@ public extension LottieView {
     /// - Returns: A view with a Lottie animation with the supplied behavior setting
     func backgroundBehavior(_ backgroundBehavior: LottieBackgroundBehavior) -> LottieView {
         self.configuration.backgroundBehavior = backgroundBehavior
+        return self
+    }
+    
+    func renderingEngine(_ renderingEngine: RenderingEngineOption) -> LottieView {
+        self.configuration.renderingEngine = renderingEngine
         return self
     }
 }
