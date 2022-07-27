@@ -71,19 +71,6 @@ public final class WrappedAnimationView: UIView, WrappedAnimationProtocol {
 }
 
 extension WrappedAnimationView {
-    var onFrame: ((CGFloat) -> Void)? {
-        get { observer.onFrameChange }
-        set { observer.onFrameChange = newValue }
-    }
-    
-    var onProgress: ((CGFloat) -> Void)? {
-        get { observer.onProgressChange }
-        set { observer.onProgressChange = newValue }
-    }
-}
-
-
-extension WrappedAnimationView {
     var loopMode: LottieLoopMode {
         get { animationView.loopMode }
         set { animationView.loopMode = newValue }
@@ -130,6 +117,16 @@ extension WrappedAnimationView {
 
     func stop() {
         animationView.stop()
+    }
+    
+    var onFrame: ((CGFloat) -> Void)? {
+        get { observer.onFrameChange }
+        set { observer.onFrameChange = newValue }
+    }
+    
+    var onProgress: ((CGFloat) -> Void)? {
+        get { observer.onProgressChange }
+        set { observer.onProgressChange = newValue }
     }
 }
 #endif
