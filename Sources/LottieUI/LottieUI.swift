@@ -10,10 +10,19 @@ import Lottie
 import SwiftUI
 import Combine
 
-@available(iOS 13.0, *)
+#if os(macOS)
+public typealias ViewRepresentable = NSViewRepresentable
+#elseif os(iOS)
+public typealias ViewRepresentable = UIViewRepresentable
+#endif
+
 /// A SwiftUI view that presents a Lottie animation that is stored locally. To present animation from a remote URL, use `AsyncLottieView` instead.
-public struct LottieView: UIViewRepresentable {
+public struct LottieView: ViewRepresentable {
+    #if os(macOS)
+    public typealias UIViewType = WrappedAnimationNSView
+    #elseif os(iOS)
     public typealias UIViewType = WrappedAnimationView
+    #endif
     // Initializer properties
     internal var contentSource: LottieContentSource
     
@@ -59,8 +68,11 @@ public struct LottieView: UIViewRepresentable {
         self.contentSource = .animation(animation)
         self.configuration = .init()
     }
+}
 
-    public func makeUIView(context: Context) -> WrappedAnimationView {
+#if os(iOS)
+public extension LottieView {
+    func makeUIView(context: Context) -> WrappedAnimationView {
         switch contentSource {
         case .bundle(let name,
                      let bundle,
@@ -90,7 +102,7 @@ public struct LottieView: UIViewRepresentable {
         }
     }
 
-    public func updateUIView(_ uiView: WrappedAnimationView, context: Context) {
+    func updateUIView(_ uiView: WrappedAnimationView, context: Context) {
         DispatchQueue.main.async {
             uiView.renderingEngine = self.configuration.renderingEngine
             uiView.loopMode = self.configuration.loopMode
@@ -118,6 +130,68 @@ public struct LottieView: UIViewRepresentable {
         }
     }
 }
+#endif
+
+#if os(macOS)
+extension LottieView {
+    public func makeNSView(context: Context) -> WrappedAnimationNSView {
+        switch contentSource {
+        case .bundle(let name,
+                     let bundle,
+                     let imageProvider,
+                     let animationCache):
+            let animation = Animation.named(name,
+                                            bundle: bundle,
+                                            subdirectory: nil,
+                                            animationCache: animationCache)
+            let provider = imageProvider ?? BundleImageProvider(bundle: bundle, searchPath: nil)
+            let animationView = WrappedAnimationNSView(animation: animation, provider: provider)
+            return animationView
+            
+        case .filepath(let path,
+                       let imageProvider,
+                       let animationCache):
+            let animation = Animation.filepath(path,
+                                               animationCache: animationCache)
+            let provider = imageProvider ??
+              FilepathImageProvider(filepath: URL(fileURLWithPath: path).deletingLastPathComponent().path)
+            let animationView = WrappedAnimationNSView(animation: animation, provider: provider)
+            return animationView
+            
+        case .animation(let animation):
+            return .init(animation: animation,
+                         provider: nil)
+        }
+    }
+    
+    public func updateNSView(_ nsView: WrappedAnimationNSView, context: Context) {
+        DispatchQueue.main.async {
+            nsView.renderingEngine = self.configuration.renderingEngine
+            nsView.loopMode = self.configuration.loopMode
+            nsView.speed = self.configuration.speed
+            nsView.backgroundBehavior = self.configuration.backgroundBehavior
+            nsView.speed = self.configuration.speed
+            nsView.setValueProvider(configuration.valueProvider,
+                                    keypath: configuration.keypath)
+            if configuration.isPlaying {
+                if let initialFrame = configuration.initialFrame,
+                   let finalFrame = configuration.finalFrame {
+                    nsView.play(
+                        fromFrame: initialFrame,
+                        toFrame:finalFrame,
+                        loopMode: configuration.loopMode,
+                        nil
+                    )
+                } else {
+                    nsView.play(completion: nil)
+                }
+            } else {
+                nsView.stop()
+            }
+        }
+    }
+}
+#endif
 
 public extension LottieView {
     /// Sets the loop mode when the Lottie animation is beign played
