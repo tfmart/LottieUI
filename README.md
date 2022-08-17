@@ -1,6 +1,6 @@
 # LottieUI
 
-![LottieUI runing on both iOS and macOS]
+![LottieUI runing on both iOS and macOS](Media/hero.gif)
 
 LottieUI allows you to use delightful [Lottie](https://airbnb.design/lottie/) animations with SwiftUI without having to give up on the familiar delcarative API or the powerful customization settings from the animation framework
 
