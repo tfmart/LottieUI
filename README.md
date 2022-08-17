@@ -63,7 +63,7 @@ struct ContentView: View {
 }
 ```
 
-<!-- Add Playback GIF -->
+![Playback modifier demo](/Media/playback.gif)
 
 ## 🔁 Loop Mode
 
@@ -78,7 +78,7 @@ struct ContentView: View {
 }
 ```
 
-<!-- Add Loop GIF -->
+![Speed modifier demo](/Media/speed.gif)
 
 ## 🖼 Current Frame and Progress
 
@@ -108,7 +108,7 @@ struct ContentView: View {
 }
 ```
 
-<!-- Add Observer GIF -->
+![Progress Observer modifier demo](/Media/progress.gif)
 
 > *Warning*
 > Progress and frame observers are only available on iOS
@@ -126,7 +126,7 @@ struct ContentView: View {
 }
 ```
 
-<!-- Add Speed GIF -->
+![Speed modifier demo](/Media/speed.gif)
 
 ## Rendering Engine
 
@@ -139,13 +139,13 @@ LottieView("MyAnimation")
     .renderingEngine(.coreAnimation)
 ```
 
-<!-- Add Rendering Engine GIF -->
+![Rendering Engine modifier demo](/Media/engine.gif)
 
 There are many other options available such as:
 
-- Limit the framerate of an animation with `.play(fromFrame: to:)`
-- Define the background behavior of the animation with `.backgroundBehavior(_ backgroundBehavior)`
-- Set the value provider for a specific keypath of the animation with `.valueProvider(_ valueProvider: keypath:)`
+- Limit the framerate of an animation with `.play(fromFrame:to:)`
+- Define the background behavior of the animation with `.backgroundBehavior(_:)`
+- Set the value provider for a specific keypath of the animation with `.valueProvider(_: keypath:)`
 
 For more information check the included documentation in each public component and modifier
 
