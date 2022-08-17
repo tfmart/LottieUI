@@ -8,7 +8,7 @@
 import Lottie
 import SwiftUI
 
-/// A SwiftUI view to present a Lottie animation from a remote URL. To present an animation from a local file, use `LottieView` instead.
+/// A SwiftUI view to present a Lottie animation from a remote URL. To present an animation from a local file, use ``LottieView`` instead.
 public struct AsyncLottieView<Content: View>: View {
     let content: (AsyncLottiePhase) -> Content
     let url: URL
@@ -20,7 +20,7 @@ public struct AsyncLottieView<Content: View>: View {
     /// - Parameters:
     ///   - url: The URL of the Lottie animation to be displayed
     ///   - animationCache: Cache to improve performance when playing recurrent animations.
-    ///   - animation: A closure that takes a `LottieView` as an input and returns a view with the animation to be displayed. You can modify the animation view as needed before running it.
+    ///   - animation: A closure that takes a ``LottieView`` as an input and returns a view with the animation to be displayed. You can modify the animation view as needed before running it.
     ///   - placeholder: A closure that returns the view to be displayed until the Lottie is successfully downloaded.
     // TODO: - Remove private API code (_ConditionalContent)
 //    public init<L, P>(

@@ -16,7 +16,7 @@ public typealias ViewRepresentable = NSViewRepresentable
 public typealias ViewRepresentable = UIViewRepresentable
 #endif
 
-/// A SwiftUI view that presents a Lottie animation that is stored locally. To present animation from a remote URL, use `AsyncLottieView` instead.
+/// A SwiftUI view that presents a Lottie animation that is stored locally. To present animation from a remote URL, use ``AsyncLottieView`` instead.
 public struct LottieView: ViewRepresentable {
     #if os(macOS)
     public typealias UIViewType = WrappedAnimationNSView
