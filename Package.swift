@@ -6,7 +6,8 @@ import PackageDescription
 let package = Package(
     name: "LottieUI",
     platforms: [
-        .iOS(.v13)
+        .iOS(.v13),
+        .macOS(.v10_15)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
@@ -15,7 +16,7 @@ let package = Package(
             targets: ["LottieUI"]),
     ],
     dependencies: [
-        .package(name: "Lottie", url: "https://github.com/airbnb/lottie-ios.git", from: "3.4.0")
+        .package(name: "Lottie", url: "https://github.com/airbnb/lottie-ios.git", from: "3.4.2")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.

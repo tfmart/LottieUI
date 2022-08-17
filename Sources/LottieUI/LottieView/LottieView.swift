@@ -1,5 +1,5 @@
 //
-//  Lottie.swift
+//  LottieView.swift
 //  GuruDesignSystem
 //
 //  Created by Tomas Martins on 18/04/22.
@@ -10,10 +10,19 @@ import Lottie
 import SwiftUI
 import Combine
 
-@available(iOS 13.0, *)
-/// A SwiftUI view that presents a Lottie animation that is stored locally. To present animation from a remote URL, use `AsyncLottieView` instead.
-public struct LottieView: UIViewRepresentable {
+#if os(macOS)
+public typealias ViewRepresentable = NSViewRepresentable
+#elseif os(iOS)
+public typealias ViewRepresentable = UIViewRepresentable
+#endif
+
+/// A SwiftUI view that presents a Lottie animation that is stored locally. To present animation from a remote URL, use ``AsyncLottieView`` instead.
+public struct LottieView: ViewRepresentable {
+    #if os(macOS)
+    public typealias UIViewType = WrappedAnimationNSView
+    #elseif os(iOS)
     public typealias UIViewType = WrappedAnimationView
+    #endif
     // Initializer properties
     internal var contentSource: LottieContentSource
     
@@ -58,64 +67,6 @@ public struct LottieView: UIViewRepresentable {
     internal init(animation: Lottie.Animation) {
         self.contentSource = .animation(animation)
         self.configuration = .init()
-    }
-
-    public func makeUIView(context: Context) -> WrappedAnimationView {
-        switch contentSource {
-        case .bundle(let name,
-                     let bundle,
-                     let imageProvider,
-                     let animationCache):
-            let animation = Animation.named(name,
-                                            bundle: bundle,
-                                            subdirectory: nil,
-                                            animationCache: animationCache)
-            let provider = imageProvider ?? BundleImageProvider(bundle: bundle, searchPath: nil)
-            let animationView = WrappedAnimationView(animation: animation, provider: provider)
-            return animationView
-            
-        case .filepath(let path,
-                       let imageProvider,
-                       let animationCache):
-            let animation = Animation.filepath(path,
-                                               animationCache: animationCache)
-            let provider = imageProvider ??
-              FilepathImageProvider(filepath: URL(fileURLWithPath: path).deletingLastPathComponent().path)
-            let animationView = WrappedAnimationView(animation: animation, provider: provider)
-            return animationView
-            
-        case .animation(let animation):
-            return .init(animation: animation,
-                         provider: nil)
-        }
-    }
-
-    public func updateUIView(_ uiView: WrappedAnimationView, context: Context) {
-        DispatchQueue.main.async {
-            uiView.renderingEngine = self.configuration.renderingEngine
-            uiView.loopMode = self.configuration.loopMode
-            uiView.speed = self.configuration.speed
-            uiView.backgroundBehavior = self.configuration.backgroundBehavior
-            uiView.onFrame = self.configuration.currentFrame
-            uiView.onProgress = self.configuration.currentProgress
-            uiView.setValueProvider(configuration.valueProvider,
-                                    keypath: configuration.keypath)
-            if configuration.isPlaying {
-                if let initialFrame = configuration.initialFrame,
-                   let finalFrame = configuration.finalFrame {
-                    uiView.play(
-                        fromFrame: initialFrame,
-                        toFrame:finalFrame,
-                        loopMode: configuration.loopMode,
-                        nil
-                    )
-                } else {
-                    uiView.play(completion: nil)
-                }
-            } else {
-                uiView.stop()
-            }
-        }
     }
 }
 

@@ -1,36 +1,23 @@
 # LottieUI
 
-LottieUI allows you to use [Lottie](https://airbnb.design/lottie/) animations and all the advanced settings of Lottie's AnimationView, without having to give up on the declarative syntax of SwiftUI. Your Lottie animations will feel right at home alongside your SwiftUI views!
+![LottieUI runing on both iOS and macOS](Media/hero.gif)
 
-### ✅ Requirements
+LottieUI allows you to use delightful [Lottie](https://airbnb.design/lottie/) animations with SwiftUI without having to give up on the familiar delcarative API or the powerful customization settings from the animation framework
 
-Currently, LottieUI works only with iOS 13.0 or later.
+### ☑️ Requirements
+
+- iOS 13.0 or later
+- macOS Catalina 10.15 or later *NEW* (Requires LottieUI 1.1 or later)
 
 # 🧑‍💻 Usage
 
-You can quickly present a local Lottie JSON file in your project with:
+To display an animation from a local Lottie JSON file, use the `LottieView` component:
 
 ```swift
 LottieView("MyAnimation")
 ```
 
-## 🛰 Remote animations
-
-To load an animation from a URL, LottieUI provides `AsyncLottieView` that will display the animation from the provided url and a placeholder view while the animation is downloaded
-
-```swift
-let url = URL(string: "https://assets3.lottiefiles.com/packages/lf20_hbdelex6.json")!
-
-AsyncLottieView(url: url) { lottieView in
-    lottieView
-} placeholder: {
-    ProgressView()
-}
-```
-
-## 🗂 Local files
-
-It's also possible to load Lottie files from another Bundle or from a specific file path:
+If your JSON is stored on another bundle outside your project's, you can specify the Bundle to load the animatio from or provide a file path where the animation file is located:
 
 ```swift
 // Loads an animation from the provided bundle
@@ -39,11 +26,33 @@ LottieView("MyAnimation", bundle: DesignSystem.Bundle.main)
 LottieView(path: "/path/to/animation.json")
 ```
 
+
+## 🛰 Remote animations
+
+For remote animations, LottieUI provides AsyncLottieView, which attemps to download an animation from a remote URL and present it if successful. You can also provide views to be displayed while the donwload is in progress or if the download fails:
+
+```swift
+let url = URL(string: "https://assets3.lottiefiles.com/packages/lf20_hbdelex6.json")!
+
+AsyncLottieView(url: url) { phase in
+    switch phase {
+    case .loading:
+        ProgressView()
+    case .error:
+        ErrorView
+    case .success(let lottieView):
+        lottieView
+    }
+}
+```
+
 # 🚀 Features
 
-## ⏯ Play and Stop
+LottieView allows you to take control of your animations with a set of modifiers that can be applied to a LottieView:
 
-By default, your animation will start playing automatically. To control whether the animation should be playing, simply use the `.play(_ isPlaying)` modifier:
+## ⏯ Playback
+
+By default, your animation will start playing automatically. To control whether the animation should be playing, use the `.play(_:)` modifier:
 
 ```swift
 struct ContentView: View {
@@ -56,9 +65,11 @@ struct ContentView: View {
 }
 ```
 
+![Playback modifier demo](/Media/playback.gif)
+
 ## 🔁 Loop Mode
 
-To setup a Loop Mode for your animation, use `.loopMode(_ mode)`:
+To setup the Loop Mode for your animation, use `.loopMode(_:)`
 
 ```swift
 struct ContentView: View {
@@ -69,9 +80,11 @@ struct ContentView: View {
 }
 ```
 
+![Speed modifier demo](/Media/speed.gif)
+
 ## 🖼 Current Frame and Progress
 
-To observe the current frame beign displayed in the animation and perform an action based on it, use `.onFrame(_ completion:)`
+To observe the current frame beign displayed in the animation and perform an action based on it, use `.onFrame(_:)`
 
 ```swift
 struct ContentView: View {
@@ -84,7 +97,7 @@ struct ContentView: View {
 }
 ```
 
-To observe the progress instead, use `.onProgress(_ completion:)`:
+To observe the progress instead, use `.onProgress(_:)`:
 
 ```swift
 struct ContentView: View {
@@ -97,9 +110,15 @@ struct ContentView: View {
 }
 ```
 
+![Progress Observer modifier demo](/Media/progress.gif)
+
+
+> **Warning**
+> Progress and frame observers are only available on iOS
+
 ## 🏃 Speed
 
-To set the speed of an animation, use `.speed(_ speed)`:
+To set the speed of an animation, use `.speed(_:)`:
 
 ```swift
 struct ContentView: View {
@@ -110,13 +129,28 @@ struct ContentView: View {
 }
 ```
 
+![Speed modifier demo](/Media/speed.gif)
+
+## Rendering Engine
+
+LottieUI also supports the new RenderingEngine introduced in [Lottie 3.4.0](https://github.com/airbnb/lottie-ios/discussions/1627), which can greatly reduce CPU usage when displaying compatible animations
+
+By default, LottieUI will the `.automatic`, which will automatically apply the new rendering engine if an animation is compatible, but you can override it with the `.renderingEngine(_:)` modifier:
+
+```swift
+LottieView("MyAnimation")
+    .renderingEngine(.coreAnimation)
+```
+
+![Rendering Engine modifier demo](/Media/engine.gif)
+
 There are many other options available such as:
 
-- Limit the framerate of an animation with `.play(fromFrame: to:)`
-- Define the background behavior of the animation with `.backgroundBehavior(_ backgroundBehavior)`
-- Set the value provider for a specific keypath of the animation with `.valueProvider(_ valueProvider: keypath:)`
+- Limit the framerate of an animation with `.play(fromFrame:to:)`
+- Define the background behavior of the animation with `.backgroundBehavior(_:)`
+- Set the value provider for a specific keypath of the animation with `.valueProvider(_: keypath:)`
 
-For more information check the included documentation in each public component and modifiers
+For more information check the included documentation in each public component and modifier
 
 # 🛠 Installation
 

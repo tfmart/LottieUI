@@ -8,7 +8,15 @@
 import Lottie
 import SwiftUI
 
-public final class WrappedAnimationView: UIView {
+protocol WrappedAnimationProtocol {
+    var animationView: AnimationView! { get set }
+    
+    func update(withEngine renderingEngine: RenderingEngineOption)
+}
+
+#if os(iOS)
+@available(iOS 13, *)
+public final class WrappedAnimationView: UIView, WrappedAnimationProtocol {
     var animationView: AnimationView!
     var observer: AnimationProgressObserver
     
@@ -62,7 +70,6 @@ public final class WrappedAnimationView: UIView {
     }
 }
 
-
 extension WrappedAnimationView {
     var loopMode: LottieLoopMode {
         get { animationView.loopMode }
@@ -77,16 +84,6 @@ extension WrappedAnimationView {
     var backgroundBehavior: LottieBackgroundBehavior {
         get { animationView.backgroundBehavior }
         set { animationView.backgroundBehavior = newValue }
-    }
-    
-    var onFrame: ((CGFloat) -> Void)? {
-        get { observer.onFrameChange }
-        set { observer.onFrameChange = newValue }
-    }
-    
-    var onProgress: ((CGFloat) -> Void)? {
-        get { observer.onProgressChange }
-        set { observer.onProgressChange = newValue }
     }
     
     var renderingEngine: RenderingEngineOption {
@@ -121,4 +118,15 @@ extension WrappedAnimationView {
     func stop() {
         animationView.stop()
     }
+    
+    var onFrame: ((CGFloat) -> Void)? {
+        get { observer.onFrameChange }
+        set { observer.onFrameChange = newValue }
+    }
+    
+    var onProgress: ((CGFloat) -> Void)? {
+        get { observer.onProgressChange }
+        set { observer.onProgressChange = newValue }
+    }
 }
+#endif

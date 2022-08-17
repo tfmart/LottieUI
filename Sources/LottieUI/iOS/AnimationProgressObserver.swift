@@ -9,6 +9,7 @@ import Lottie
 import QuartzCore
 import CoreGraphics
 
+#if canImport(UIKit)
 internal class AnimationProgressObserver {
     private var animationView: AnimationView
     internal var onFrameChange: ((CGFloat) -> Void)?
@@ -37,5 +38,5 @@ internal class AnimationProgressObserver {
             onProgressChange(animationView.realtimeAnimationProgress)
         }
     }
-    
 }
+#endif
