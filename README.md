@@ -1,5 +1,7 @@
 # LottieUI
 
+![LottieUI runing on both iOS and macOS]
+
 LottieUI allows you to use delightful [Lottie](https://airbnb.design/lottie/) animations with SwiftUI without having to give up on the familiar delcarative API or the powerful customization settings from the animation framework
 
 ### ☑️ Requirements
@@ -110,7 +112,8 @@ struct ContentView: View {
 
 ![Progress Observer modifier demo](/Media/progress.gif)
 
-> *Warning*
+
+> **Warning**
 > Progress and frame observers are only available on iOS
 
 ## 🏃 Speed
