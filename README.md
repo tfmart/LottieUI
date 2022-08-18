@@ -80,7 +80,7 @@ struct ContentView: View {
 }
 ```
 
-![Speed modifier demo](/Media/speed.gif)
+![Speed modifier demo](/Media/loop.gif)
 
 ## 🖼 Current Frame and Progress
 
