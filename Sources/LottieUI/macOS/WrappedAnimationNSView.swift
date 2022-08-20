@@ -14,7 +14,8 @@ public class WrappedAnimationNSView: NSView, WrappedAnimationProtocol {
     
     public init(animation: Lottie.Animation?, provider: AnimationImageProvider?) {
         let animationView = AnimationView(animation: animation, imageProvider: provider)
-        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.contentMode = .scaleAspectFit
+        
         self.animationView = animationView
         
         super.init(frame: .zero)
@@ -28,6 +29,8 @@ public class WrappedAnimationNSView: NSView, WrappedAnimationProtocol {
             animationView.centerXAnchor.constraint(equalTo: centerXAnchor),
             animationView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+        animationView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        animationView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
     @available(*, unavailable)
@@ -42,6 +45,7 @@ public class WrappedAnimationNSView: NSView, WrappedAnimationProtocol {
         self.animationView = AnimationView(animation: animation,
                                              imageProvider: imageProvider,
                                              configuration: .init(renderingEngine: renderingEngine))
+        animationView.contentMode = .scaleAspectFit
         animationView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(animationView)
         NSLayoutConstraint.activate([
@@ -52,6 +56,8 @@ public class WrappedAnimationNSView: NSView, WrappedAnimationProtocol {
             animationView.centerXAnchor.constraint(equalTo: centerXAnchor),
             animationView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
+        animationView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        animationView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 }
 
