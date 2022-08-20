@@ -17,6 +17,7 @@ public class WrappedAnimationNSView: NSView, WrappedAnimationProtocol {
         animationView.contentMode = .scaleAspectFit
         
         self.animationView = animationView
+        animationView.translatesAutoresizingMaskIntoConstraints = false
         
         super.init(frame: .zero)
       
