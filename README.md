@@ -2,7 +2,7 @@
 
 ![LottieUI runing on both iOS and macOS](Media/hero.gif)
 
-LottieUI allows you to use delightful [Lottie](https://airbnb.design/lottie/) animations with SwiftUI without having to give up on the familiar delcarative API or the powerful customization settings from the animation framework
+LottieUI allows you to use delightful [Lottie](https://airbnb.design/lottie/) animations with SwiftUI without having to give up on the familiar declarative API or the powerful customization settings from the animation framework
 
 ### ☑️ Requirements
 
@@ -17,7 +17,7 @@ To display an animation from a local Lottie JSON file, use the `LottieView` comp
 LottieView("MyAnimation")
 ```
 
-If your JSON is stored on another bundle outside your project's, you can specify the Bundle to load the animatio from or provide a file path where the animation file is located:
+If your JSON is stored on another bundle outside your project's, you can specify the Bundle to load the animation from or provide a file path where the animation file is located:
 
 ```swift
 // Loads an animation from the provided bundle
@@ -84,7 +84,7 @@ struct ContentView: View {
 
 ## 🖼 Current Frame and Progress
 
-To observe the current frame beign displayed in the animation and perform an action based on it, use `.onFrame(_:)`
+To observe the current frame being displayed in the animation and perform an action based on it, use `.onFrame(_:)`
 
 ```swift
 struct ContentView: View {
@@ -135,7 +135,7 @@ struct ContentView: View {
 
 LottieUI also supports the new RenderingEngine introduced in [Lottie 3.4.0](https://github.com/airbnb/lottie-ios/discussions/1627), which can greatly reduce CPU usage when displaying compatible animations
 
-By default, LottieUI will the `.automatic`, which will automatically apply the new rendering engine if an animation is compatible, but you can override it with the `.renderingEngine(_:)` modifier:
+By default, LottieUI uses the `.automatic`, which will automatically apply the new rendering engine if an animation is compatible, but you can override it with the `.renderingEngine(_:)` modifier:
 
 ```swift
 LottieView("MyAnimation")
