@@ -34,7 +34,7 @@ public struct AsyncLottieView<Content: View>: View {
     public var body: some View {
         content(phase)
             .onAppear {
-                Animation.loadedFrom(url: url, closure: { animation in
+                LottieAnimation.loadedFrom(url: url, closure: { animation in
                     if let animation = animation {
                         self.phase = .success(.init(animation: animation))
                     } else {

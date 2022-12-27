@@ -64,7 +64,7 @@ public struct LottieView: ViewRepresentable {
         self.configuration = .init()
     }
     
-    internal init(animation: Lottie.Animation) {
+    internal init(animation: Lottie.LottieAnimation) {
         self.contentSource = .animation(animation)
         self.configuration = .init()
     }

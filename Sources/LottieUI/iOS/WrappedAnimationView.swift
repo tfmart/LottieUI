@@ -9,7 +9,7 @@ import Lottie
 import SwiftUI
 
 protocol WrappedAnimationProtocol {
-    var animationView: AnimationView! { get set }
+    var animationView: LottieAnimationView! { get set }
     
     func update(withEngine renderingEngine: RenderingEngineOption)
 }
@@ -17,11 +17,11 @@ protocol WrappedAnimationProtocol {
 #if os(iOS)
 @available(iOS 13, *)
 public final class WrappedAnimationView: UIView, WrappedAnimationProtocol {
-    var animationView: AnimationView!
+    var animationView: LottieAnimationView!
     var observer: AnimationProgressObserver
     
-    init(animation: Lottie.Animation?, provider: AnimationImageProvider?) {
-        let animationView = AnimationView(animation: animation, imageProvider: provider)
+    init(animation: Lottie.LottieAnimation?, provider: AnimationImageProvider?) {
+        let animationView = LottieAnimationView(animation: animation, imageProvider: provider)
         animationView.translatesAutoresizingMaskIntoConstraints = false
         self.animationView = animationView
         self.observer = .init(animationView: animationView,
@@ -50,7 +50,7 @@ public final class WrappedAnimationView: UIView, WrappedAnimationProtocol {
         let animation = animationView.animation
         let imageProvider = animationView.imageProvider
         animationView.removeFromSuperview()
-        self.animationView = AnimationView(animation: animation,
+        self.animationView = LottieAnimationView(animation: animation,
                                              imageProvider: imageProvider,
                                              configuration: .init(renderingEngine: renderingEngine))
         animationView.translatesAutoresizingMaskIntoConstraints = false

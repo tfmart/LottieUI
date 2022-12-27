@@ -11,13 +11,13 @@ import CoreGraphics
 
 #if canImport(UIKit)
 internal class AnimationProgressObserver {
-    private var animationView: AnimationView
+    private var animationView: LottieAnimationView
     internal var onFrameChange: ((CGFloat) -> Void)?
     internal var onProgressChange: ((CGFloat) -> Void)?
     private var lastAnimationProgress: CGFloat = -1
     private var lastAnimationFrame: CGFloat = -1
     
-    internal init(animationView: AnimationView, onFrameChange: ((CGFloat) -> Void)? = nil, onProgressChange: ((CGFloat) -> Void)? = nil) {
+    internal init(animationView: LottieAnimationView, onFrameChange: ((CGFloat) -> Void)? = nil, onProgressChange: ((CGFloat) -> Void)? = nil) {
         self.animationView = animationView
         self.onFrameChange = onFrameChange
         self.onProgressChange = onProgressChange

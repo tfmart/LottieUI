@@ -18,5 +18,5 @@ internal enum LottieContentSource {
                   imageProvider: AnimationImageProvider?,
                   animationCache: AnimationCacheProvider?)
 
-    case animation(_ animation: Animation)
+    case animation(_ animation: LottieAnimation)
 }
