@@ -10,10 +10,10 @@ import AppKit
 import Lottie
 
 public class WrappedAnimationNSView: NSView, WrappedAnimationProtocol {
-    var animationView: AnimationView!
+    var animationView: LottieAnimationView!
     
     public init(animation: Lottie.Animation?, provider: AnimationImageProvider?) {
-        let animationView = AnimationView(animation: animation, imageProvider: provider)
+        let animationView = LottieAnimationView(animation: animation, imageProvider: provider)
         animationView.contentMode = .scaleAspectFit
         
         self.animationView = animationView
@@ -43,7 +43,7 @@ public class WrappedAnimationNSView: NSView, WrappedAnimationProtocol {
         let animation = animationView.animation
         let imageProvider = animationView.imageProvider
         animationView.removeFromSuperview()
-        self.animationView = AnimationView(animation: animation,
+        self.animationView = LottieAnimationView(animation: animation,
                                              imageProvider: imageProvider,
                                              configuration: .init(renderingEngine: renderingEngine))
         animationView.contentMode = .scaleAspectFit
