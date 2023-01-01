@@ -23,7 +23,7 @@ public struct AsyncLottieView<Content: View>: View {
     ///   - content: A closure that takes the current phase as an input and returns the view to be displayed in each phase
     public init(
         url: URL,
-        animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache,
+        animationCache: AnimationCacheProvider? = DefaultAnimationCache.sharedCache,
         @ViewBuilder content: @escaping (AsyncLottiePhase) -> Content
     ) {
         self.url = url
