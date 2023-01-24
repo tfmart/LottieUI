@@ -12,7 +12,7 @@ import Lottie
 public class WrappedAnimationNSView: NSView, WrappedAnimationProtocol {
     var animationView: LottieAnimationView!
     
-    public init(animation: Lottie.Animation?, provider: AnimationImageProvider?) {
+    public init(animation: LottieAnimation?, provider: AnimationImageProvider?) {
         let animationView = LottieAnimationView(animation: animation, imageProvider: provider)
         animationView.contentMode = .scaleAspectFit
         

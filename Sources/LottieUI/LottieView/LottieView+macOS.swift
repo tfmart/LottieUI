@@ -16,7 +16,7 @@ extension LottieView {
                      let bundle,
                      let imageProvider,
                      let animationCache):
-            let animation = Animation.named(name,
+            let animation = LottieAnimation.named(name,
                                             bundle: bundle,
                                             subdirectory: nil,
                                             animationCache: animationCache)
@@ -27,7 +27,7 @@ extension LottieView {
         case .filepath(let path,
                        let imageProvider,
                        let animationCache):
-            let animation = Animation.filepath(path,
+            let animation = LottieAnimation.filepath(path,
                                                animationCache: animationCache)
             let provider = imageProvider ??
               FilepathImageProvider(filepath: URL(fileURLWithPath: path).deletingLastPathComponent().path)
