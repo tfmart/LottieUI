@@ -39,7 +39,7 @@ public struct LottieView: ViewRepresentable {
         _ name: String,
         bundle: Bundle = .main,
         imageProvider: AnimationImageProvider? = nil,
-        animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache
+        animationCache: AnimationCacheProvider? = DefaultAnimationCache.sharedCache
     ) {
         self.contentSource = .bundle(name: name,
                                      bundle: bundle,
@@ -56,7 +56,7 @@ public struct LottieView: ViewRepresentable {
     public init(
         path: String,
         imageProvider: AnimationImageProvider? = nil,
-        animationCache: AnimationCacheProvider? = LRUAnimationCache.sharedCache
+        animationCache: AnimationCacheProvider? = DefaultAnimationCache.sharedCache
     ) {
         self.contentSource = .filepath(path: path,
                                        imageProvider: imageProvider,
