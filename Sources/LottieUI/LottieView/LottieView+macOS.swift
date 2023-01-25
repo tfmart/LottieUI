@@ -46,6 +46,8 @@ extension LottieView {
             nsView.loopMode = self.configuration.loopMode
             nsView.speed = self.configuration.speed
             nsView.backgroundBehavior = self.configuration.backgroundBehavior
+            nsView.onFrame = self.configuration.currentFrame
+            nsView.onProgress = self.configuration.currentProgress
             nsView.speed = self.configuration.speed
             nsView.setValueProvider(configuration.valueProvider,
                                     keypath: configuration.keypath)
