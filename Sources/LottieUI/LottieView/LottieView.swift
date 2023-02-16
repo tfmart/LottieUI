@@ -90,7 +90,14 @@ public extension LottieView {
     /// Adds an action to be performed when every time the frame of an animation is changed
     /// - Parameter completion: The action to perform
     /// - Returns: A view that triggers `completion` when the frame changes
-    /// - Warning: Progress observer only works when using the mainThread rendering engine. You can set it by using the `renderingEngine` modifier and setting to `.mainThread`
+    /// - Warning: Progress observer only works when using the mainThread rendering engine. You can set it by using the ``renderingEngine(_:)`` modifier and setting to `.mainThread`
+    /// ```swift
+    /// LottieView("my-animation")
+    ///    .renderingEngine(.mainThread)
+    ///    .onFrame { frame in
+    ///       //...
+    ///     }
+    /// ```
     func onFrame(_ completion: @escaping (AnimationFrameTime) -> Void) -> LottieView {
         self.configuration.currentFrame = completion
         return self
@@ -99,7 +106,14 @@ public extension LottieView {
     /// Adds an action to be performed each time the animation progress is changed
     /// - Parameter completion: The action to perform
     /// - Returns: A view that triggers `completion` when the progress changes
-    /// - Warning: Progress observer only works when using the mainThread rendering engine. You can set it by using the `renderingEngine` modifier and setting to `.mainThread`
+    /// - Warning: Progress observer only works when using the mainThread rendering engine. You can set it by using the ``renderingEngine(_:)`` modifier and setting to `.mainThread`
+    /// ```swift
+    /// LottieView("my-animation")
+    ///    .renderingEngine(.mainThread)
+    ///    .onProgress { progress in
+    ///       //...
+    ///     }
+    /// ```
     func onProgress(_ completion: @escaping (AnimationProgressTime) -> Void) -> LottieView {
         self.configuration.currentProgress = completion
         return self
