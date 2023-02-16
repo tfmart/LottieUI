@@ -11,15 +11,20 @@ import Lottie
 
 public class WrappedAnimationNSView: NSView, WrappedAnimationProtocol {
     var animationView: LottieAnimationView!
+    var observer: AnimationProgressObserver
     
     public init(animation: LottieAnimation?, provider: AnimationImageProvider?) {
         let animationView = LottieAnimationView(animation: animation, imageProvider: provider)
         animationView.contentMode = .scaleAspectFit
         
         self.animationView = animationView
-        animationView.translatesAutoresizingMaskIntoConstraints = false
-        
+        self.observer = .init(animationView: animationView,
+                              onFrameChange: nil,
+                              onProgressChange: nil)
         super.init(frame: .zero)
+        
+        
+        animationView.translatesAutoresizingMaskIntoConstraints = false
       
         addSubview(animationView)
         NSLayoutConstraint.activate([
@@ -48,6 +53,9 @@ public class WrappedAnimationNSView: NSView, WrappedAnimationProtocol {
                                              configuration: .init(renderingEngine: renderingEngine))
         animationView.contentMode = .scaleAspectFit
         animationView.translatesAutoresizingMaskIntoConstraints = false
+        self.observer = .init(animationView: animationView,
+                              onFrameChange: nil,
+                              onProgressChange: nil)
         addSubview(animationView)
         NSLayoutConstraint.activate([
             animationView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
@@ -109,6 +117,16 @@ extension WrappedAnimationNSView {
 
     func stop() {
         animationView.stop()
+    }
+    
+    var onFrame: ((CGFloat) -> Void)? {
+        get { observer.onFrameChange }
+        set { observer.onFrameChange = newValue }
+    }
+    
+    var onProgress: ((CGFloat) -> Void)? {
+        get { observer.onProgressChange }
+        set { observer.onProgressChange = newValue }
     }
 }
 #endif
