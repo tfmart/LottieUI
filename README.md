@@ -86,10 +86,14 @@ struct ContentView: View {
 
 To observe the current frame being displayed in the animation and perform an action based on it, use `.onFrame(_:)`
 
+> **Warning**
+> To make use of the Frame/Progress observers, the animation must be using the `.mainThread` rendering engine. This can be set by using the [`.renderingEngine(_:)` method](https://github.com/tfmart/LottieUI#rendering-engine)
+
 ```swift
 struct ContentView: View {
     var body: some View {
         LottieView("MyAnimation")
+            .renderingEngine(.mainThread)
             .onFrame { _ in
                 // Perform action based on current frame
             }
@@ -103,6 +107,7 @@ To observe the progress instead, use `.onProgress(_:)`:
 struct ContentView: View {
     var body: some View {
         LottieView("MyAnimation")
+            .renderingEngine(.mainThread)
             .onProgress { _ in
                 // Perform action based on current progress
             }
@@ -111,10 +116,6 @@ struct ContentView: View {
 ```
 
 ![Progress Observer modifier demo](/Media/progress.gif)
-
-
-> **Warning**
-> Progress and frame observers are only available on iOS
 
 ## 🏃 Speed
 
